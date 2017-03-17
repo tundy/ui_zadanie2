@@ -1,17 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 using EulerovKon;
 
@@ -20,7 +11,7 @@ namespace GUI
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         private readonly Search _search = new Search();
         private readonly List<Line> _lines = new List<Line>(400);
@@ -66,13 +57,13 @@ namespace GUI
             _lines.Clear();
 
             var x = int.Parse(Xvalue.Text) - 1;
-            if (x < 0 || x > (int) WidthSlider.Value)
+            if (x < 0 || x >= (int) WidthSlider.Value)
             {
                 MessageBox.Show("Neplatná hodnota pre X.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             var y = int.Parse(Yvalue.Text) - 1;
-            if (y < 0 || y > (int)HeightSlider.Value)
+            if (y < 0 || y >= (int)HeightSlider.Value)
             {
                 MessageBox.Show("Neplatná hodnota pre Y.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
@@ -87,8 +78,8 @@ namespace GUI
             var path = _search.Start((int)WidthSlider.Value, (int)HeightSlider.Value, x, y, seconds);
 
             TimeElapsed.Text = _search.TimeElapsed.ToString();
-            Generated.Text = _search.Generated.ToString();
-            Steps.Text = _search.Steps.ToString();
+            Generated.Text = _search.Generated.ToString("n0", _format);
+            Steps.Text = _search.Steps.ToString("n0", _format);
             Memory.Text = (_search.MaxMemory >> 10).ToString("n0", _format);
 
             if (path == null) return;
