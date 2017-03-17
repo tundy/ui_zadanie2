@@ -6,7 +6,7 @@ namespace EulerovKon
     /// <summary>
     /// Objekt obsahujúci informácie o aktuálnom rozloení šachovnice
     /// </summary>
-    public class Stav
+    public class Uzol
     {
         #region Attributes
         /// <summary>
@@ -34,15 +34,15 @@ namespace EulerovKon
         /// </summary>
         public readonly int Remaining;
         /// <summary>
-        /// Cena stavu
+        /// Cena uzlu
         /// </summary>
         public int Cost => Jumps.Count;
         /// <summary>
-        /// Dostupné políèka kam môe kôò skoèi
+        /// Doèasne uloené dostupné políèka kam môe kôò skoèi
         /// </summary>
         public readonly List<Tuple<int,int>> Jumps = new List<Tuple<int, int>>(8);
         /// <summary>
-        /// Cesta, ktorou som sa dostal do tohto stavu
+        /// Cesta, ktorou som sa dostal do tohto uzlu
         /// </summary>
         public readonly Tuple<int, int>[] Path;
         /// <summary>
@@ -53,13 +53,13 @@ namespace EulerovKon
 
         #region Constructors
         /// <summary>
-        /// Vytvor novı stav
+        /// Vytvor novı uzol
         /// </summary>
         /// <param name="width">Šírka stavu</param>
         /// <param name="height">Vıška stavu</param>
         /// <param name="x">Horizontálna pozícia koòa</param>
         /// <param name="y">Vertikálna pozícia koòa</param>
-        public Stav(int width, int height, int x, int y)
+        public Uzol(int width, int height, int x, int y)
         {
             Used = new bool[width, height];
             Width = width;
@@ -77,30 +77,30 @@ namespace EulerovKon
         }
 
         /// <summary>
-        /// Vytvorí novı stav na základe druhého stavu
+        /// Vytvorí novı uzol na základe druhého uzla
         /// </summary>
-        /// <param name="stav">Stav, z ktorého ma skopírova rozloenie</param>
+        /// <param name="uzol">Uzol, z ktorého ma skopírova rozloenie</param>
         /// <param name="horse">Nová pozícia koòa</param>
-        public Stav(Stav stav, Tuple<int, int> horse)
+        public Uzol(Uzol uzol, Tuple<int, int> horse)
         {
-            Width = stav.Width;
-            Height = stav.Height;
+            Width = uzol.Width;
+            Height = uzol.Height;
             Used = new bool[Width, Height];
 
             for (var x = 0; x < Width; x++)
                 for (var y = 0; y < Height; y++)
-                    Used[x,y] = stav.Used[x, y];
+                    Used[x,y] = uzol.Used[x, y];
 
             X = horse.Item1;
             Y = horse.Item2;
 
             Used[horse.Item1, horse.Item2] = true;
-            Path = new Tuple<int, int>[stav.Path.Length];
-            Remaining = stav.Remaining - 1;
+            Path = new Tuple<int, int>[uzol.Path.Length];
+            Remaining = uzol.Remaining - 1;
 
-            _pathIndex = stav._pathIndex;
+            _pathIndex = uzol._pathIndex;
             for (var i = 0; i < _pathIndex; i++)
-                Path[i] = stav.Path[i];
+                Path[i] = uzol.Path[i];
             Path[_pathIndex++] = horse;
 
             GenerateJumps();
@@ -109,15 +109,15 @@ namespace EulerovKon
 
         #region Public Methods
         /// <summary>
-        /// Vráti èi aktuálny stav je koneènı stav
+        /// Vráti èi aktuálny uzol je koneènı uzol
         /// </summary>
-        /// <returns>Vráti èi aktuálny stav je koneènı stav</returns>
+        /// <returns>Vráti èi aktuálny uzol je koneènı uzol</returns>
         public bool Victory() => Remaining == 0;
 
         /// <summary>
-        /// Vráti èi aktuálny stav je slepá ulièka
+        /// Vráti èi aktuálny uzol je slepá ulièka
         /// </summary>
-        /// <returns>Vráti èi aktuálny stav je slepá ulièka</returns>
+        /// <returns>Vráti èi aktuálny uzol je slepá ulièka</returns>
         public bool Failed() => Remaining != 0 && Cost == 0;
 
         /// <summary>

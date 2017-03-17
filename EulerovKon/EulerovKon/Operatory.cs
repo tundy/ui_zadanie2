@@ -5,7 +5,7 @@ namespace EulerovKon
 {
     public static class Operatory
     {
-        public delegate Tuple<int, int> Operator(Stav stav);
+        public delegate Tuple<int, int> Operator(Uzol uzol);
 
         public static readonly Operator[] AllOperations = {
             O1,
@@ -18,52 +18,52 @@ namespace EulerovKon
             O8
         };
 
-        private static Tuple<int, int> O1(Stav stav)
+        private static Tuple<int, int> O1(Uzol uzol)
         {
-            var result = new Tuple<int, int>(stav.X - 1, stav.Y - 2);
-            return result.Item1 < 0 || result.Item2 < 0 || stav.Used[result.Item1, result.Item2] ? null : result;
+            var result = new Tuple<int, int>(uzol.X - 1, uzol.Y - 2);
+            return result.Item1 < 0 || result.Item2 < 0 || uzol.Used[result.Item1, result.Item2] ? null : result;
         }
 
-        private static Tuple<int, int> O2(Stav stav)
+        private static Tuple<int, int> O2(Uzol uzol)
         {
-            var result = new Tuple<int, int>(stav.X + 1, stav.Y - 2);
-            return result.Item1 >= stav.Width || result.Item2 < 0 || stav.Used[result.Item1, result.Item2] ? null : result;
+            var result = new Tuple<int, int>(uzol.X + 1, uzol.Y - 2);
+            return result.Item1 >= uzol.Width || result.Item2 < 0 || uzol.Used[result.Item1, result.Item2] ? null : result;
         }
 
-        private static Tuple<int, int> O3(Stav stav)
+        private static Tuple<int, int> O3(Uzol uzol)
         {
-            var result = new Tuple<int, int>(stav.X + 2, stav.Y - 1);
-            return result.Item1 >= stav.Width || result.Item2 < 0 || stav.Used[result.Item1, result.Item2] ? null : result;
+            var result = new Tuple<int, int>(uzol.X + 2, uzol.Y - 1);
+            return result.Item1 >= uzol.Width || result.Item2 < 0 || uzol.Used[result.Item1, result.Item2] ? null : result;
         }
 
-        private static Tuple<int, int> O4(Stav stav)
+        private static Tuple<int, int> O4(Uzol uzol)
         {
-            var result = new Tuple<int, int>(stav.X + 2, stav.Y + 1);
-            return result.Item1 >= stav.Width || result.Item2 >= stav.Height || stav.Used[result.Item1, result.Item2] ? null : result;
+            var result = new Tuple<int, int>(uzol.X + 2, uzol.Y + 1);
+            return result.Item1 >= uzol.Width || result.Item2 >= uzol.Height || uzol.Used[result.Item1, result.Item2] ? null : result;
         }
 
-        private static Tuple<int, int> O5(Stav stav)
+        private static Tuple<int, int> O5(Uzol uzol)
         {
-            var result = new Tuple<int, int>(stav.X + 1, stav.Y + 2);
-            return result.Item1 >= stav.Width || result.Item2 >= stav.Height || stav.Used[result.Item1, result.Item2] ? null : result;
+            var result = new Tuple<int, int>(uzol.X + 1, uzol.Y + 2);
+            return result.Item1 >= uzol.Width || result.Item2 >= uzol.Height || uzol.Used[result.Item1, result.Item2] ? null : result;
         }
 
-        private static Tuple<int, int> O6(Stav stav)
+        private static Tuple<int, int> O6(Uzol uzol)
         {
-            var result = new Tuple<int, int>(stav.X - 1, stav.Y + 2);
-            return result.Item1 < 0 || result.Item2 >= stav.Height || stav.Used[result.Item1, result.Item2] ? null : result;
+            var result = new Tuple<int, int>(uzol.X - 1, uzol.Y + 2);
+            return result.Item1 < 0 || result.Item2 >= uzol.Height || uzol.Used[result.Item1, result.Item2] ? null : result;
         }
 
-        private static Tuple<int, int> O7(Stav stav)
+        private static Tuple<int, int> O7(Uzol uzol)
         {
-            var result = new Tuple<int, int>(stav.X - 2, stav.Y + 1);
-            return result.Item1 < 0 || result.Item2 >= stav.Height || stav.Used[result.Item1, result.Item2] ? null : result;
+            var result = new Tuple<int, int>(uzol.X - 2, uzol.Y + 1);
+            return result.Item1 < 0 || result.Item2 >= uzol.Height || uzol.Used[result.Item1, result.Item2] ? null : result;
         }
 
-        private static Tuple<int, int> O8(Stav stav)
+        private static Tuple<int, int> O8(Uzol uzol)
         {
-            var result = new Tuple<int, int>(stav.X - 2, stav.Y - 1);
-            return result.Item1 < 0 || result.Item2 < 0 || stav.Used[result.Item1, result.Item2] ? null : result;
+            var result = new Tuple<int, int>(uzol.X - 2, uzol.Y - 1);
+            return result.Item1 < 0 || result.Item2 < 0 || uzol.Used[result.Item1, result.Item2] ? null : result;
         }
     }
 }
