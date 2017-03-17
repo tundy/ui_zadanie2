@@ -1,0 +1,78 @@
+﻿<Window x:Class="GUI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GUI"
+        mc:Ignorable="d"
+        Title="Eulerov kôň" Height="600" Width="800" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}">
+    <Grid ShowGridLines="True" Background="{DynamicResource {x:Static SystemColors.DesktopBrushKey}}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <Viewbox Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid x:Name="ChessBoard" x:FieldModifier="private" Background="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" SizeChanged="ChessBoard_SizeChanged" VerticalAlignment="Top" HorizontalAlignment="Left">
+                
+            </Grid>
+        </Viewbox>
+        <Grid Grid.Column="1" ShowGridLines="True" MinWidth="250" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Orientation="Vertical">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Column="0" Grid.Row="0"  Orientation="Horizontal" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Right">
+                        <TextBlock VerticalAlignment="Center" Text="Šírka: "/>
+                        <TextBox VerticalAlignment="Center" IsReadOnly="True" Text="{Binding Value, ElementName=WidthSlider}" HorizontalContentAlignment="Center" Margin="0,0,10,0" MinWidth="20"/>
+                    </StackPanel>
+                    <DockPanel Grid.Column="1" Grid.Row="0" Margin="5" VerticalAlignment="Center">
+                        <TextBlock VerticalAlignment="Center" DockPanel.Dock="Left" Text="{Binding Minimum, ElementName=WidthSlider}"/>
+                        <TextBlock VerticalAlignment="Center" DockPanel.Dock="Right" Text="{Binding Maximum, ElementName=WidthSlider}"/>
+                        <Slider IsSnapToTickEnabled="True" VerticalContentAlignment="Center" x:Name="WidthSlider" x:FieldModifier="private" Margin="5" Maximum="20" Minimum="5" Value="8" DockPanel.Dock="Right" SmallChange="1" ToolTip="Šírka šachovnice" ValueChanged="WidthSlider_ValueChanged"/>
+                    </DockPanel>
+                    <StackPanel Grid.Column="0" Grid.Row="1"  Orientation="Horizontal" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Right">
+                        <TextBlock VerticalAlignment="Center" Text="Výška: "/>
+                        <TextBox VerticalAlignment="Center" IsReadOnly="True" Text="{Binding Value, ElementName=HeightSlider}" HorizontalContentAlignment="Center" Margin="0,0,10,0" MinWidth="20"/>
+                    </StackPanel>
+
+                    <DockPanel  Grid.Column="1" Grid.Row="1"  Margin="5" VerticalAlignment="Center">
+                        <TextBlock VerticalAlignment="Center" DockPanel.Dock="Left" Text="{Binding Minimum, ElementName=HeightSlider}"/>
+                        <TextBlock VerticalAlignment="Center" DockPanel.Dock="Right" Text="{Binding Maximum, ElementName=HeightSlider}"/>
+                        <Slider IsSnapToTickEnabled="True" VerticalContentAlignment="Center" x:Name="HeightSlider" x:FieldModifier="private" Margin="5" Maximum="20" Minimum="5" Value="8" DockPanel.Dock="Right" SmallChange="1" ToolTip="Výška šachovnice" ValueChanged="HeightSlider_ValueChanged"/>
+                    </DockPanel>
+                </Grid>
+                <CheckBox x:Name="AutoSearch" x:FieldModifier="private" Margin="5" Content="Automaticky vyhľadávať"/>
+                <Button Content="Hľadaj" Margin="5" Click="Button_Click"/>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Orientation="Vertical">
+                <WrapPanel Margin="5" VerticalAlignment="Center">
+                    <TextBlock Margin="5,0" Text="Čas vyhľadávania:"/>
+                    <TextBlock Margin="5,0" Text="0" x:Name="TimeElapsed" x:FieldModifier="private" />
+                </WrapPanel>
+                <WrapPanel Margin="5" VerticalAlignment="Center">
+                    <TextBlock Margin="5,0" Text="Vygenerované uzly:"/>
+                    <TextBlock Margin="5,0" Text="0" x:Name="Generated" x:FieldModifier="private" />
+                </WrapPanel>
+                <WrapPanel Margin="5" VerticalAlignment="Center">
+                    <TextBlock Margin="5,0" Text="Prehľadané uzly:"/>
+                    <TextBlock Margin="5,0" Text="0" x:Name="Steps" x:FieldModifier="private" />
+                </WrapPanel>
+                <WrapPanel Margin="5" VerticalAlignment="Center">
+                    <TextBlock Margin="5,0" Text="Využitie pamäte:"/>
+                    <TextBlock Margin="5,0" Text="0" x:Name="Memory" x:FieldModifier="private" />
+                    <TextBlock Margin="5,0" Text="KB"/>
+                </WrapPanel>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
