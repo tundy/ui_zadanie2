@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GUI"
         mc:Ignorable="d"
-        Title="Eulerov kôň" Height="600" Width="800" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}">
+        Title="Eulerov kôň" Height="600" Width="800" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" Icon="Resources/horse.ico">
     <Grid ShowGridLines="True" Background="{DynamicResource {x:Static SystemColors.DesktopBrushKey}}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -51,8 +51,24 @@
                         <Slider IsSnapToTickEnabled="True" VerticalContentAlignment="Center" x:Name="HeightSlider" x:FieldModifier="private" Margin="5" Maximum="20" Minimum="5" Value="8" DockPanel.Dock="Right" SmallChange="1" ToolTip="Výška šachovnice" ValueChanged="HeightSlider_ValueChanged"/>
                     </DockPanel>
                 </Grid>
-                <CheckBox x:Name="AutoSearch" x:FieldModifier="private" Margin="5" Content="Automaticky vyhľadávať"/>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Vertical" Margin="5">
+                        <TextBlock Text="Začiatočná pozícia"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="X:" VerticalAlignment="Center"/>
+                            <TextBox CommandManager.PreviewExecuted="textBox_PreviewExecuted" ContextMenu="{x:Null}" x:Name="Xvalue" x:FieldModifier="private" Text="1" Margin="5" MinWidth="20" MaxLength="2" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" PreviewTextInput="TextBox_PreviewTextInput"/>
+                            <TextBlock Text="Y:" VerticalAlignment="Center"/>
+                            <TextBox CommandManager.PreviewExecuted="textBox_PreviewExecuted" ContextMenu="{x:Null}" x:Name="Yvalue" x:FieldModifier="private" Text="1" Margin="5"  MinWidth="20" MaxLength="2" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" PreviewTextInput="TextBox_PreviewTextInput"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Margin="5">
+                        <TextBlock Text="Maximálny počet sekúnd pre prehľadávanie"/>
+                        <TextBox CommandManager.PreviewExecuted="textBox_PreviewExecuted" ContextMenu="{x:Null}" x:Name="MaxSeconds" x:FieldModifier="private" VerticalContentAlignment="Center" Margin="5" PreviewTextInput="TextBox_PreviewTextInput" Text="15"/>
+                    </StackPanel>
+                </StackPanel>
+                <CheckBox x:Name="AutoSearch" x:FieldModifier="private" Margin="5" Content="Automaticky vyhľadávať po zmene veĺkosti"/>
                 <Button Content="Hľadaj" Margin="5" Click="Button_Click"/>
+                <Button Content="O programe" Margin="5" Click="Button_Click_1"/>
             </StackPanel>
             <StackPanel Grid.Row="1" Orientation="Vertical">
                 <WrapPanel Margin="5" VerticalAlignment="Center">

@@ -57,7 +57,7 @@ namespace GUI
                 Generate();
         }
 
-        NumberFormatInfo _format = new NumberFormatInfo { NumberGroupSeparator = " " };
+        readonly NumberFormatInfo _format = new NumberFormatInfo { NumberGroupSeparator = " " };
 
         private void Generate()
         {
@@ -65,12 +65,31 @@ namespace GUI
                 ChessBoard.Children.Remove(line);
             _lines.Clear();
 
-            var path = _search.Start((int)WidthSlider.Value, (int)HeightSlider.Value, 0, 0, 10);
+            var x = int.Parse(Xvalue.Text) - 1;
+            if (x < 0 || x > (int) WidthSlider.Value)
+            {
+                MessageBox.Show("Neplatná hodnota pre X.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            var y = int.Parse(Yvalue.Text) - 1;
+            if (y < 0 || y > (int)HeightSlider.Value)
+            {
+                MessageBox.Show("Neplatná hodnota pre Y.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            var seconds = int.Parse(MaxSeconds.Text);
+            if(seconds <= 0)
+            {
+                MessageBox.Show("Neplatný počet sekúnd.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            var path = _search.Start((int)WidthSlider.Value, (int)HeightSlider.Value, x, y, seconds);
 
             TimeElapsed.Text = _search.TimeElapsed.ToString();
             Generated.Text = _search.Generated.ToString();
             Steps.Text = _search.Steps.ToString();
-            Memory.Text = _search.MaxMemory.ToString("n0", _format);
+            Memory.Text = (_search.MaxMemory >> 10).ToString("n0", _format);
 
             if (path == null) return;
             for (var i = 0; i < path.Length - 1;)
@@ -87,6 +106,34 @@ namespace GUI
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Generate();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(
+                $"Vytvoril Matúš Tundér na základe Warnsdorf pravidla (H. C. von Warnsdorf v roku 1823) pre školské účely (c) 2017{Environment.NewLine}Ikona programu je pod licencou Creative Commons, autor: https://www.fatcow.com",
+                "O programe", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void textBox_PreviewExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (e.Command == ApplicationCommands.Copy ||
+                e.Command == ApplicationCommands.Cut ||
+                e.Command == ApplicationCommands.Paste)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private static bool IsTextAllowed(string text)
+        {
+            uint x;
+            return uint.TryParse(text, out x);
+        }
+
+        private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !IsTextAllowed(e.Text);
         }
     }
 }
