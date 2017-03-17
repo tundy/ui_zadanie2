@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Shapes;
 using EulerovKon;
 
@@ -19,6 +21,16 @@ namespace GUI
         private readonly Search _search = new Search();
 
         /// <summary>
+        /// Začiatočný štvorček
+        /// </summary>
+        private readonly Rectangle _start = new Rectangle { Width = 20, Height = 20, VerticalAlignment = VerticalAlignment.Top, HorizontalAlignment = HorizontalAlignment.Left };
+
+        /// <summary>
+        /// Control pre odchytávanie stlačenia ľavého tlačidla na šachovnici
+        /// </summary>
+        private readonly Button _handler = new Button { Background = Brushes.Transparent, VerticalAlignment = VerticalAlignment.Stretch, HorizontalAlignment = HorizontalAlignment.Stretch, Opacity = 0 };
+
+        /// <summary>
         /// Vykreslené riešenie
         /// </summary>
         private readonly List<Line> _lines = new List<Line>(400);
@@ -31,6 +43,15 @@ namespace GUI
             InitializeComponent();
             ChessBoard.Width = WidthSlider.Value * 20;
             ChessBoard.Height = HeightSlider.Value * 20;
+            _handler.Click += _handler_Click;
+        }
+
+        private void _handler_Click(object sender, RoutedEventArgs e)
+        {
+            var mouse = Mouse.GetPosition(ChessBoard);
+            Xvalue.Text = ((int)(mouse.X / 20) + 1).ToString();
+            Yvalue.Text = ((int)(mouse.Y / 20) + 1).ToString();
+            Generate();
         }
 
         /// <summary>
@@ -54,8 +75,11 @@ namespace GUI
         /// </summary>
         private void ChessBoard_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            // Clear
             ChessBoard.Children.Clear();
             _lines.Clear();
+
+            // Vyfarby sachovnicu
             for (var x = 0; x < WidthSlider.Value; x++)
             {
                 for (var y = 0; y < HeightSlider.Value; y++)
@@ -64,6 +88,11 @@ namespace GUI
                     ChessBoard.Children.Add(new Rectangle { Width = 20, Height = 20, Fill = SystemColors.ControlBrush, Margin = new Thickness(x * 20, y * 20, 0, 0), VerticalAlignment = VerticalAlignment.Top, HorizontalAlignment = HorizontalAlignment.Left});
                 }
             }
+
+            // Pridaj Handler na vrch
+            ChessBoard.Children.Add(_handler);
+
+
             if (AutoSearch.IsChecked == true)
                 Generate();
         }
@@ -79,6 +108,7 @@ namespace GUI
             foreach (var line in _lines)
                 ChessBoard.Children.Remove(line);
             _lines.Clear();
+            ChessBoard.Children.Remove(_start);
 
             // Ošetri vstup
             var x = int.Parse(Xvalue.Text) - 1;
@@ -93,12 +123,20 @@ namespace GUI
                 MessageBox.Show("Neplatná hodnota pre Y.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+
+            _start.Fill = SystemColors.HighlightBrush;
+            _start.Margin = new Thickness(x * 20, y * 20, 0, 0);
+            ChessBoard.Children.Add(_start);
+
             var seconds = int.Parse(MaxSeconds.Text);
             if(seconds <= 0)
             {
                 MessageBox.Show("Neplatný počet sekúnd.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+
+            // Vymaz HLander kedze pojdu cez neho ciary
+            ChessBoard.Children.Remove(_handler);
 
             // Nájdi cestu
             var path = _search.Start((int)WidthSlider.Value, (int)HeightSlider.Value, x, y, seconds);
@@ -118,17 +156,22 @@ namespace GUI
                 else
                     MessageBox.Show("Riešenie pre daný vstup neexistuje.", "Chyba", MessageBoxButton.OK,
                         MessageBoxImage.Information);
-                return;
             }
-            for (var i = 0; i < path.Length - 1;)
+            else
             {
-                var ciara = new Line { X1 = path[i].Item1 * 20 + 10, Y1 = path[i].Item2 * 20 + 10, Stroke = SystemColors.ControlTextBrush };
-                ++i;
-                ciara.X2 = path[i].Item1 * 20 + 10;
-                ciara.Y2 = path[i].Item2 * 20 + 10;
-                ChessBoard.Children.Add(ciara);
-                _lines.Add(ciara);
+                for (var i = 0; i < path.Length - 1;)
+                {
+                    var ciara = new Line { X1 = path[i].Item1 * 20 + 10, Y1 = path[i].Item2 * 20 + 10, Stroke = SystemColors.ControlTextBrush };
+                    ++i;
+                    ciara.X2 = path[i].Item1 * 20 + 10;
+                    ciara.Y2 = path[i].Item2 * 20 + 10;
+                    ChessBoard.Children.Add(ciara);
+                    _lines.Add(ciara);
+                }
             }
+
+            // Pridaj Handler na vrch
+            ChessBoard.Children.Add(_handler);
         }
 
         /// <summary>
@@ -153,6 +196,7 @@ namespace GUI
         /// Zakáž Copy, Paste a Cut
         /// </summary>
         /// <param name="sender">UserControl na ktorom sa zakáže Copy, Paste a Cut</param>
+        /// <param name="e">EventArgument, kt. sa upravi</param>
         private void textBox_PreviewExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             if (e.Command == ApplicationCommands.Copy ||
@@ -177,6 +221,7 @@ namespace GUI
         /// <summary>
         /// Zavolása pri pokuse o písania do Textboxu
         /// </summary>
+        /// <param name="sender">Textbox, kt. odosiela EventArgumenty</param>
         /// <param name="e">Argument textboxu</param>
         private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
