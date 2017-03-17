@@ -8,6 +8,25 @@ namespace EulerovKon
     /// </summary>
     public class Uzol
     {
+        #region Constants
+        /// <summary>
+        /// Maximálna Šírka šachovnice
+        /// </summary>
+        public const int MaxWidth = 20;
+        /// <summary>
+        /// Maximálna vıška šachovnice
+        /// </summary>
+        public const int MaxHeight = 20;
+        /// <summary>
+        /// Minimálna Šírka šachovnice
+        /// </summary>
+        public const int MinWidth = 5;
+        /// <summary>
+        /// Minimálna vıška šachovnice
+        /// </summary>
+        public const int MinHeight = 5;
+        #endregion
+
         #region Attributes
         /// <summary>
         /// Urèuje ktoré políèka na šachovnici u boli navštívené
@@ -59,8 +78,15 @@ namespace EulerovKon
         /// <param name="height">Vıška stavu</param>
         /// <param name="x">Horizontálna pozícia koòa</param>
         /// <param name="y">Vertikálna pozícia koòa</param>
+        /// <exception cref="IndexOutOfRangeException"/>
+        /// <exception cref="ArgumentException"/>
         public Uzol(int width, int height, int x, int y)
         {
+            if(width > MaxWidth || width < MinWidth)
+                throw new ArgumentException("Wrong Width", nameof(width));
+            if (height > MaxHeight || height < MinHeight)
+                throw new ArgumentException("Wrong Height", nameof(height));
+
             Used = new bool[width, height];
             Width = width;
             Height = height;
@@ -81,6 +107,7 @@ namespace EulerovKon
         /// </summary>
         /// <param name="uzol">Uzol, z ktorého ma skopírova rozloenie</param>
         /// <param name="horse">Nová pozícia koòa</param>
+        /// <exception cref="IndexOutOfRangeException"/>
         public Uzol(Uzol uzol, Tuple<int, int> horse)
         {
             Width = uzol.Width;
@@ -125,6 +152,7 @@ namespace EulerovKon
         /// </summary>
         /// <param name="index">Tuple obsahujúci horizontálnu pozíciu na prvom mieste a vertikálnu na druhom</param>
         /// <returns>Obsadenos políèka v šachovnici</returns>
+        /// <exception cref="IndexOutOfRangeException"/>
         public bool GetUsed(Tuple<int, int> index) => Used[index.Item1, index.Item2];
         #endregion
 
