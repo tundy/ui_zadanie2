@@ -63,7 +63,7 @@
                     </StackPanel>
                     <StackPanel Orientation="Vertical" Margin="5">
                         <TextBlock Text="Maximálny počet sekúnd pre prehľadávanie"/>
-                        <TextBox CommandManager.PreviewExecuted="textBox_PreviewExecuted" ContextMenu="{x:Null}" x:Name="MaxSeconds" x:FieldModifier="private" VerticalContentAlignment="Center" Margin="5" PreviewTextInput="TextBox_PreviewTextInput" Text="10"/>
+                        <TextBox MaxLength="6" CommandManager.PreviewExecuted="textBox_PreviewExecuted" ContextMenu="{x:Null}" x:Name="MaxSeconds" x:FieldModifier="private" VerticalContentAlignment="Center" Margin="5" PreviewTextInput="TextBox_PreviewTextInput" Text="10"/>
                     </StackPanel>
                 </StackPanel>
                 <CheckBox x:Name="AutoSearch" x:FieldModifier="private" Margin="5" Content="Automaticky vyhľadávať po zmene veĺkosti"/>

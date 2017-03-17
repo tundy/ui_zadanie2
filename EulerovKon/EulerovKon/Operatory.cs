@@ -5,7 +5,7 @@ namespace EulerovKon
     /// <summary>
     /// Statická trieda obsahjúca bšetky dostupné operátory
     /// </summary>
-    public static class Operatory
+    internal static class Operatory
     {
         /// <summary>
         /// Metóda operátora

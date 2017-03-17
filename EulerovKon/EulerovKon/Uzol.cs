@@ -6,7 +6,8 @@ namespace EulerovKon
     /// <summary>
     /// Objekt obsahujúci informácie o aktuálnom rozloení šachovnice
     /// </summary>
-    public class Uzol
+    [Serializable]
+    internal class Uzol
     {
         #region Constants
         /// <summary>
@@ -148,17 +149,7 @@ namespace EulerovKon
             GenerateJumps();
         }
         #endregion
-
-        #region Public Methods
-        /// <summary>
-        /// Vráti èi políèko v šachovnici je obsadené
-        /// </summary>
-        /// <param name="index">Tuple obsahujúci horizontálnu pozíciu na prvom mieste a vertikálnu na druhom</param>
-        /// <returns>Obsadenos políèka v šachovnici</returns>
-        /// <exception cref="IndexOutOfRangeException"/>
-        public bool GetUsed(Tuple<int, int> index) => Used[index.Item1, index.Item2];
-        #endregion
-
+        
         #region Private Methdos
         /// <summary>
         /// Vygeneruje nové dostupné pozície kam môe kôò skoèi, na základe operátorov

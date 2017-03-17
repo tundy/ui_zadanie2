@@ -128,7 +128,12 @@ namespace GUI
             _start.Margin = new Thickness(x * 20, y * 20, 0, 0);
             ChessBoard.Children.Add(_start);
 
-            var seconds = int.Parse(MaxSeconds.Text);
+            int seconds;
+            if (!int.TryParse(MaxSeconds.Text, out seconds))
+            {
+                MessageBox.Show("Neplatný počet sekúnd.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
             if(seconds <= 0)
             {
                 MessageBox.Show("Neplatný počet sekúnd.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
