@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GUI"
         mc:Ignorable="d"
-        Title="Eulerov kôň" Height="600" Width="800" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" Icon="Resources/horse.ico" Loaded="Window_Loaded">
+        Title="Eulerov kôň" Height="600" Width="800" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" Foreground="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" Loaded="Window_Loaded" Icon="Resources/horse.ico">
     <Grid ShowGridLines="True" Background="{DynamicResource {x:Static SystemColors.DesktopBrushKey}}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>

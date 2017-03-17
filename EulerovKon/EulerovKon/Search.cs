@@ -27,10 +27,12 @@ namespace EulerovKon
         /// Čas trvania prehľadávania
         /// </summary>
         public TimeSpan TimeElapsed => _stopwatch.Elapsed;
+
         /// <summary>
         /// Určuje či prehľadávanie bole ukončené uplninutím dostupného času.
         /// </summary>
-        public bool TimedOut => _uzly.Count == 0;
+        public bool TimedOut { get; private set; }
+
         #endregion
 
         #region Private Variables
@@ -85,13 +87,22 @@ namespace EulerovKon
 
             // Init
             GC.Collect();
-            _uzly.Clear();
+            TimedOut = false;
             MaxMemory = _proc.PrivateMemorySize64;
             _timer.Interval = 1000 * maxSeconds;
             _work = true;
             Steps = 0;
+            _uzly.Clear();
             _uzly.Push(new Uzol(width, height, x, y));
             Generated = 1;
+
+            // Ma to zmysel?
+            if ((width & 1) == 1 && (height & 1) == 1 && ((x + y) & 1) == 1)
+            {
+                MaxMemory = Math.Max(MaxMemory, _proc.PrivateMemorySize64); // Zaznač veľkosť využitia pamäte
+                _stopwatch.Stop();
+                return null;
+            }
 
             // Spustenie časovača
             _timer.Start();
@@ -147,6 +158,7 @@ namespace EulerovKon
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             _work = false;
+            TimedOut = true;
         }
     }
 }
