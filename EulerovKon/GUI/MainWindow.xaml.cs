@@ -145,7 +145,7 @@ namespace GUI
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             MessageBox.Show(
-                $"Vytvoril Matúš Tundér na základe Warnsdorf pravidla (H. C. von Warnsdorf v roku 1823) pre školské účely (c) 2017{Environment.NewLine}Ikona programu je pod licencou Creative Commons, autor: https://www.fatcow.com",
+                $"Vytvoril Matúš Tundér na základe Warnsdorf pravidla{Environment.NewLine}(H. C. von Warnsdorf, 1823) pre školské účely (c) 2017{Environment.NewLine}Ikona programu je pod licencou Creative Commons,{Environment.NewLine}autor: https://www.fatcow.com",
                 "O programe", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
