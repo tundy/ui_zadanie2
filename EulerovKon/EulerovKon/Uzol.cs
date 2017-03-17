@@ -27,6 +27,25 @@ namespace EulerovKon
         public const int MinHeight = 5;
         #endregion
 
+        #region Properties
+        /// <summary>
+        /// Cena uzlu
+        /// </summary>
+        public int Cost => Jumps.Count;
+        /// <summary>
+        /// Vráti èi aktuálny uzol je koneènı uzol
+        /// </summary>
+        /// <returns>Vráti èi aktuálny uzol je koneènı uzol</returns>
+        public bool Victory => Remaining == 0;
+
+        /// <summary>
+        /// Vráti èi aktuálny uzol je slepá ulièka
+        /// </summary>
+        /// <returns>Vráti èi aktuálny uzol je slepá ulièka</returns>
+        public bool Failed => Remaining != 0 && Cost == 0;
+
+        #endregion
+
         #region Attributes
         /// <summary>
         /// Urèuje ktoré políèka na šachovnici u boli navštívené
@@ -52,10 +71,6 @@ namespace EulerovKon
         /// Poèet neobsadenıch políèok v šachovnici
         /// </summary>
         public readonly int Remaining;
-        /// <summary>
-        /// Cena uzlu
-        /// </summary>
-        public int Cost => Jumps.Count;
         /// <summary>
         /// Doèasne uloené dostupné políèka kam môe kôò skoèi
         /// </summary>
@@ -135,18 +150,6 @@ namespace EulerovKon
         #endregion
 
         #region Public Methods
-        /// <summary>
-        /// Vráti èi aktuálny uzol je koneènı uzol
-        /// </summary>
-        /// <returns>Vráti èi aktuálny uzol je koneènı uzol</returns>
-        public bool Victory() => Remaining == 0;
-
-        /// <summary>
-        /// Vráti èi aktuálny uzol je slepá ulièka
-        /// </summary>
-        /// <returns>Vráti èi aktuálny uzol je slepá ulièka</returns>
-        public bool Failed() => Remaining != 0 && Cost == 0;
-
         /// <summary>
         /// Vráti èi políèko v šachovnici je obsadené
         /// </summary>
