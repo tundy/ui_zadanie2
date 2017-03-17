@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace EulerovKon
 {
-    public static class Operacie
+    public static class Operatory
     {
-        public delegate Tuple<int, int> Operacia(Stav stav);
+        public delegate Tuple<int, int> Operator(Stav stav);
 
-        public static readonly Operacia[] AllOperations = {
+        public static readonly Operator[] AllOperations = {
             O1,
             O2,
             O3,

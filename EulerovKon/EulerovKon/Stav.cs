@@ -130,13 +130,13 @@ namespace EulerovKon
 
         #region Private Methdos
         /// <summary>
-        /// Vygeneruje nové dostupné pozície kam môe kôò skoèi, na základe operácií
+        /// Vygeneruje nové dostupné pozície kam môe kôò skoèi, na základe operátorov
         /// </summary>
         private void GenerateJumps()
         {
-            foreach (var operacia in Operacie.AllOperations)
+            foreach (var @operator in Operatory.AllOperations)
             {
-                var skok = operacia(this);
+                var skok = @operator(this);
                 if (skok == null) continue;
                 Jumps.Add(skok);
             }
