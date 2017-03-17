@@ -88,7 +88,7 @@
                     <TextBlock Margin="5,0" Text="0" x:Name="Memory" x:FieldModifier="private" />
                     <TextBlock Margin="5,0" Text="KB*"/>
                 </WrapPanel>
-                <TextBlock Margin="5"  Text="* vyše 80% pamäte zaberá GUI"/>
+                <TextBlock Margin="5"  Text="* vyše 75% pamäte zaberá GUI"/>
             </StackPanel>
         </Grid>
     </Grid>
