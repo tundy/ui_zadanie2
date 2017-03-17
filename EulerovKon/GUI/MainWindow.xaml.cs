@@ -112,7 +112,10 @@ namespace GUI
             // Update GUI
             if (path == null)
             {
-                MessageBox.Show("Nepodarilo sa nájsť cestu v stanovenom čase.", "Vypršal čas", MessageBoxButton.OK, MessageBoxImage.Warning);
+                if(_search.Generated == _search.Steps)
+                    MessageBox.Show("Riešenie pre daný vstup neexistuje.", "Chyba", MessageBoxButton.OK, MessageBoxImage.Information);
+                else
+                    MessageBox.Show("Nepodarilo sa nájsť cestu v stanovenom čase.", "Vypršal čas", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
             for (var i = 0; i < path.Length - 1;)
