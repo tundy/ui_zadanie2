@@ -6,64 +6,12 @@ using System.Timers;
 namespace EulerovKon
 {
     /// <summary>
-    /// Algoritmus pre úlohu Eulerov kôň
+    ///     Algoritmus pre úlohu Eulerov kôň
     /// </summary>
     public class Search
     {
-        #region Public Attributes & Properties
         /// <summary>
-        /// Počet skontrolovaných Uzlov
-        /// </summary>
-        public int Steps { get; private set; }
-        /// <summary>
-        /// Počet vygenerovaných uzlov
-        /// </summary>
-        public int Generated { get; private set; }
-        /// <summary>
-        /// Maximálne využitie pamäte od spustenia prehľadávania
-        /// </summary>
-        public long MaxMemory { get; private set; }
-        /// <summary>
-        /// Čas trvania prehľadávania
-        /// </summary>
-        public TimeSpan TimeElapsed => _stopwatch.Elapsed;
-
-        /// <summary>
-        /// Určuje či prehľadávanie bole ukončené uplninutím dostupného času.
-        /// </summary>
-        public bool TimedOut { get; private set; }
-
-        #endregion
-
-        #region Private Variables
-        /// <summary>
-        /// Určuje či už uplnyul čas alebo nie
-        /// </summary>
-        private bool _work;
-        /// <summary>
-        /// Listy prehľadávaného grafu
-        /// </summary>
-        private readonly Stack<Uzol> _uzly = new Stack<Uzol>();
-        /// <summary>
-        /// Časovač pre ukončenie prehľadávania
-        /// </summary>
-        private readonly Timer _timer = new Timer {AutoReset = false};
-        /// <summary>
-        /// Stopky pre zistenie trvania prehľadávania
-        /// </summary>
-        private readonly Stopwatch _stopwatch = new Stopwatch();
-        /// <summary>
-        /// Dočasné pole pre zoradenie novo vygenerovaných uzlov
-        /// </summary>
-        private readonly List<Uzol> _tempUzly = new List<Uzol>(8);
-        /// <summary>
-        /// AKtuálny process (pre zistenie pamäte)
-        /// </summary>
-        private readonly Process _proc = Process.GetCurrentProcess();
-        #endregion
-
-        /// <summary>
-        /// Inicializuje prehľadávanie
+        ///     Inicializuje prehľadávanie
         /// </summary>
         public Search()
         {
@@ -71,14 +19,14 @@ namespace EulerovKon
         }
 
         /// <summary>
-        /// Spusti prehľadávanie pre šachovnicu určenú vstupnými argumentami
+        ///     Spusti prehľadávanie pre šachovnicu určenú vstupnými argumentami
         /// </summary>
         /// <param name="width">Šírka šachovnice</param>
         /// <param name="height">Výška šachovnice</param>
         /// <param name="x">Horizontálna začiatočná pozícia</param>
         /// <param name="y">Vertikálna začiatočná pozícia</param>
         /// <param name="maxSeconds">Maximálny počet sekúnd, ktorý môže hľadať cestu</param>
-        /// <exception cref="ArgumentException"/>
+        /// <exception cref="ArgumentException" />
         /// <returns>Vráti cestu ako pole x,y suradníc alebo null ak cesta nebola nájdená</returns>
         public Tuple<int, int>[] Start(int width, int height, int x, int y, int maxSeconds)
         {
@@ -110,21 +58,22 @@ namespace EulerovKon
             // Cyklus prehľadávania
             while (_work)
             {
-                if (_uzly.Count == 0)   // Ak si vyskúšak už všetky stavy
-                    break;              // Tak ukonči cyklus
+                if (_uzly.Count == 0) // Ak si vyskúšak už všetky stavy
+                    break; // Tak ukonči cyklus
 
                 var uzol = _uzly.Pop(); // Vyber nasledujúci stav/uzol
                 ++Steps;
 
-                if (uzol.Victory)       // Je to konečný stav?
+
+                if (uzol.Victory) // Je to konečný stav?
                 {
                     _timer.Stop();
                     MaxMemory = Math.Max(MaxMemory, _proc.PrivateMemorySize64); // Zaznač veľkosť využitia pamäte
                     _stopwatch.Stop();
-                    return uzol.Path;   // Vrať nájdenú cestu
+                    return uzol.Path; // Vrať nájdenú cestu
                 }
 
-                if (uzol.Failed)        // Slepá ulička ?
+                if (uzol.Failed) // Slepá ulička ?
                     continue;
 
                 // Vygeneruj nasledujúce uzly pomocou výsledkov z dostupných operátorov
@@ -151,7 +100,7 @@ namespace EulerovKon
         }
 
         /// <summary>
-        /// Zastav prehľadávanie
+        ///     Zastav prehľadávanie
         /// </summary>
         /// <param name="sender">Časovač, ktorý zavolal metódu</param>
         /// <param name="e">Argumenty časovača</param>
@@ -160,5 +109,68 @@ namespace EulerovKon
             _work = false;
             TimedOut = true;
         }
+
+        #region Public Attributes & Properties
+
+        /// <summary>
+        ///     Počet skontrolovaných Uzlov
+        /// </summary>
+        public int Steps { get; private set; }
+
+        /// <summary>
+        ///     Počet vygenerovaných uzlov
+        /// </summary>
+        public int Generated { get; private set; }
+
+        /// <summary>
+        ///     Maximálne využitie pamäte od spustenia prehľadávania
+        /// </summary>
+        public long MaxMemory { get; private set; }
+
+        /// <summary>
+        ///     Čas trvania prehľadávania
+        /// </summary>
+        public TimeSpan TimeElapsed => _stopwatch.Elapsed;
+
+        /// <summary>
+        ///     Určuje či prehľadávanie bole ukončené uplninutím dostupného času.
+        /// </summary>
+        public bool TimedOut { get; private set; }
+
+        #endregion
+
+        #region Private Variables
+
+        /// <summary>
+        ///     Určuje či už uplnyul čas alebo nie
+        /// </summary>
+        private bool _work;
+
+        /// <summary>
+        ///     Listy prehľadávaného grafu
+        /// </summary>
+        private readonly Stack<Uzol> _uzly = new Stack<Uzol>();
+
+        /// <summary>
+        ///     Časovač pre ukončenie prehľadávania
+        /// </summary>
+        private readonly Timer _timer = new Timer {AutoReset = false};
+
+        /// <summary>
+        ///     Stopky pre zistenie trvania prehľadávania
+        /// </summary>
+        private readonly Stopwatch _stopwatch = new Stopwatch();
+
+        /// <summary>
+        ///     Dočasné pole pre zoradenie novo vygenerovaných uzlov
+        /// </summary>
+        private readonly List<Uzol> _tempUzly = new List<Uzol>(8);
+
+        /// <summary>
+        ///     AKtuálny process (pre zistenie pamäte)
+        /// </summary>
+        private readonly Process _proc = Process.GetCurrentProcess();
+
+        #endregion
     }
 }
