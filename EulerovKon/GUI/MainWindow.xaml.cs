@@ -55,6 +55,10 @@ namespace GUI
         public MainWindow()
         {
             InitializeComponent();
+            WidthSlider.Maximum = Search.MaxWidth;
+            WidthSlider.Minimum = Search.MinWidth;
+            HeightSlider.Maximum = Search.MaxHeight;
+            HeightSlider.Minimum = Search.MinHeight;
             ChessBoard.Width = WidthSlider.Value * 20;
             ChessBoard.Height = HeightSlider.Value * 20;
             _handler.Click += _handler_Click;

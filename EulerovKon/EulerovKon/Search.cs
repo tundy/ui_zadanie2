@@ -10,6 +10,8 @@ namespace EulerovKon
     /// </summary>
     public class Search
     {
+        #region Constructors
+
         /// <summary>
         ///     Inicializuje prehľadávanie
         /// </summary>
@@ -17,6 +19,10 @@ namespace EulerovKon
         {
             _timer.Elapsed += Timer_Elapsed;
         }
+
+        #endregion
+
+        #region Public Methods
 
         /// <summary>
         ///     Spusti prehľadávanie pre šachovnicu určenú vstupnými argumentami
@@ -99,6 +105,10 @@ namespace EulerovKon
             return null;
         }
 
+        #endregion
+
+        #region Private Methods
+
         /// <summary>
         ///     Zastav prehľadávanie
         /// </summary>
@@ -109,6 +119,32 @@ namespace EulerovKon
             _work = false;
             TimedOut = true;
         }
+
+        #endregion
+
+        #region Constants
+
+        /// <summary>
+        ///     Maximálna Šírka šachovnice
+        /// </summary>
+        public const int MaxWidth = 20;
+
+        /// <summary>
+        ///     Maximálna výška šachovnice
+        /// </summary>
+        public const int MaxHeight = 20;
+
+        /// <summary>
+        ///     Minimálna Šírka šachovnice
+        /// </summary>
+        public const int MinWidth = 5;
+
+        /// <summary>
+        ///     Minimálna výška šachovnice
+        /// </summary>
+        public const int MinHeight = 5;
+
+        #endregion
 
         #region Public Attributes & Properties
 

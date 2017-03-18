@@ -7,7 +7,7 @@ namespace EulerovKon
     /// <summary>
     ///     Objekt obsahujúci informácie o aktuálnom rozloení šachovnice
     /// </summary>
-    [DebuggerDisplay("X:{X}, Y:{Y}, C:{Cost}, R:{Remaining}")]
+    [DebuggerDisplay("X:{X}, Y:{Y}, C:{Cost}, R:{_remaining}")]
     internal class Uzol
     {
         #region Private Methdos
@@ -27,30 +27,6 @@ namespace EulerovKon
 
         #endregion
 
-        #region Constants
-
-        /// <summary>
-        ///     Maximálna Šírka šachovnice
-        /// </summary>
-        public const int MaxWidth = 20;
-
-        /// <summary>
-        ///     Maximálna vıška šachovnice
-        /// </summary>
-        public const int MaxHeight = 20;
-
-        /// <summary>
-        ///     Minimálna Šírka šachovnice
-        /// </summary>
-        public const int MinWidth = 5;
-
-        /// <summary>
-        ///     Minimálna vıška šachovnice
-        /// </summary>
-        public const int MinHeight = 5;
-
-        #endregion
-
         #region Properties
 
         /// <summary>
@@ -62,13 +38,13 @@ namespace EulerovKon
         ///     Vráti èi aktuálny uzol je koneènı uzol
         /// </summary>
         /// <returns>Vráti èi aktuálny uzol je koneènı uzol</returns>
-        public bool Victory => Remaining == 0;
+        public bool Victory => _remaining == 0;
 
         /// <summary>
         ///     Vráti èi aktuálny uzol je slepá ulièka
         /// </summary>
         /// <returns>Vráti èi aktuálny uzol je slepá ulièka</returns>
-        public bool Failed => Remaining != 0 && Cost == 0;
+        public bool Failed => _remaining != 0 && Cost == 0;
 
         #endregion
 
@@ -102,7 +78,7 @@ namespace EulerovKon
         /// <summary>
         ///     Poèet neobsadenıch políèok v šachovnici
         /// </summary>
-        public readonly int Remaining;
+        private readonly int _remaining;
 
         /// <summary>
         ///     Doèasne uloené dostupné políèka kam môe kôò skoèi
@@ -134,9 +110,9 @@ namespace EulerovKon
         /// <exception cref="ArgumentException" />
         public Uzol(int width, int height, int x, int y)
         {
-            if (width > MaxWidth || width < MinWidth)
+            if (width > Search.MaxWidth || width < Search.MinWidth)
                 throw new ArgumentException("Wrong Width", nameof(width));
-            if (height > MaxHeight || height < MinHeight)
+            if (height > Search.MaxHeight || height < Search.MinHeight)
                 throw new ArgumentException("Wrong Height", nameof(height));
 
             Used = new bool[width, height];
@@ -148,7 +124,7 @@ namespace EulerovKon
 
             Used[X, Y] = true;
             Path = new Tuple<int, int>[Width * Height];
-            Remaining = Width * Height - 1;
+            _remaining = Width * Height - 1;
             Path[_pathIndex++] = new Tuple<int, int>(x, y);
 
             GenerateJumps();
@@ -175,7 +151,7 @@ namespace EulerovKon
 
             Used[horse.Item1, horse.Item2] = true;
             Path = new Tuple<int, int>[uzol.Path.Length];
-            Remaining = uzol.Remaining - 1;
+            _remaining = uzol._remaining - 1;
 
             _pathIndex = uzol._pathIndex;
             for (var i = 0; i < _pathIndex; i++)

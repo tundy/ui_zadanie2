@@ -17,7 +17,7 @@
   <Class Name="EulerovKon.Search">
     <Position X="2.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>KAABAAAAAKAgAAAAAAAAAAAAAAAABIAAACBEAEAAAAA=</HashCode>
+      <HashCode>KAABAAAAEKAgAAAAAAAAAAAAAAAABIAAACBUAEAAEBA=</HashCode>
       <FileName>Search.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -25,9 +25,10 @@
     <Position X="0.5" Y="0.5" Width="1.75" />
     <Members>
       <Field Name="_pathIndex" Hidden="true" />
+      <Field Name="_remaining" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>AEAAAAAAFAAAAAIAAAAAAFAAAAAAACgAABIUAAAAcFA=</HashCode>
+      <HashCode>AEAAAAAABAAAAAIAAAAAAFAAAAAAACgCABIAAAAAYEA=</HashCode>
       <FileName>Uzol.cs</FileName>
     </TypeIdentifier>
   </Class>
