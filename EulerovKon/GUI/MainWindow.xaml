@@ -83,12 +83,6 @@
                     <TextBlock Margin="5,0" Text="Prehľadané uzly:"/>
                     <TextBlock Margin="5,0" Text="0" x:Name="Steps" x:FieldModifier="private" />
                 </WrapPanel>
-                <WrapPanel Margin="5" VerticalAlignment="Center">
-                    <TextBlock Margin="5,0" Text="Využitie pamäte:"/>
-                    <TextBlock Margin="5,0" Text="0" x:Name="Memory" x:FieldModifier="private" />
-                    <TextBlock Margin="5,0" Text="KB*"/>
-                </WrapPanel>
-                <TextBlock Margin="5"  Text="* vyše 75% pamäte zaberá GUI"/>
             </StackPanel>
         </Grid>
     </Grid>

@@ -177,7 +177,6 @@ namespace GUI
             TimeElapsed.Text = _search.TimeElapsed.ToString();
             Generated.Text = _search.Generated.ToString("n0", _format);
             Steps.Text = _search.Steps.ToString("n0", _format);
-            Memory.Text = (_search.MaxMemory >> 10).ToString("n0", _format);
 
             // Update GUI
             if (path == null)

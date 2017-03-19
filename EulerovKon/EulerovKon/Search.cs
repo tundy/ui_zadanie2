@@ -42,7 +42,6 @@ namespace EulerovKon
             // Init
             GC.Collect();
             TimedOut = false;
-            MaxMemory = _proc.PrivateMemorySize64;
             _timer.Interval = 1000 * maxSeconds;
             _work = true;
             Steps = 0;
@@ -53,7 +52,6 @@ namespace EulerovKon
             // Ma to zmysel?
             if ((width & 1) == 1 && (height & 1) == 1 && ((x + y) & 1) == 1)
             {
-                MaxMemory = Math.Max(MaxMemory, _proc.PrivateMemorySize64); // Zaznač veľkosť využitia pamäte
                 _stopwatch.Stop();
                 return null;
             }
@@ -70,11 +68,9 @@ namespace EulerovKon
                 var uzol = _uzly.Pop(); // Vyber nasledujúci stav/uzol
                 ++Steps;
 
-
                 if (uzol.Victory) // Je to konečný stav?
                 {
                     _timer.Stop();
-                    MaxMemory = Math.Max(MaxMemory, _proc.PrivateMemorySize64); // Zaznač veľkosť využitia pamäte
                     _stopwatch.Stop();
                     return uzol.Path; // Vrať nájdenú cestu
                 }
@@ -86,7 +82,7 @@ namespace EulerovKon
                 _tempUzly.Clear();
                 foreach (var jump in uzol.Jumps)
                     _tempUzly.Add(new Uzol(uzol, jump));
-                Generated += uzol.Jumps.Count;
+                Generated += _tempUzly.Count;
 
                 // Zoraď uzly od najdrahšieho po najlacnejší
                 _tempUzly.Sort((a, b) => b.Cost.CompareTo(a.Cost));
@@ -94,13 +90,10 @@ namespace EulerovKon
                 // Priraď uzly do zásobníka (najlacnejší je priradený ako posledný)
                 foreach (var u in _tempUzly)
                     _uzly.Push(u);
-
-                MaxMemory = Math.Max(MaxMemory, _proc.PrivateMemorySize64); // Zaznač veľkosť využitia pamäte
             }
 
             // Nepodarilo sa nájsť cestu
             _timer.Stop();
-            MaxMemory = Math.Max(MaxMemory, _proc.PrivateMemorySize64); // Zaznač veľkosť využitia pamäte
             _stopwatch.Stop();
             return null;
         }
@@ -159,11 +152,6 @@ namespace EulerovKon
         public int Generated { get; private set; }
 
         /// <summary>
-        ///     Maximálne využitie pamäte od spustenia prehľadávania
-        /// </summary>
-        public long MaxMemory { get; private set; }
-
-        /// <summary>
         ///     Čas trvania prehľadávania
         /// </summary>
         public TimeSpan TimeElapsed => _stopwatch.Elapsed;
@@ -201,11 +189,6 @@ namespace EulerovKon
         ///     Dočasné pole pre zoradenie novo vygenerovaných uzlov
         /// </summary>
         private readonly List<Uzol> _tempUzly = new List<Uzol>(8);
-
-        /// <summary>
-        ///     AKtuálny process (pre zistenie pamäte)
-        /// </summary>
-        private readonly Process _proc = Process.GetCurrentProcess();
 
         #endregion
     }
