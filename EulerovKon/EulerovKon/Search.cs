@@ -34,7 +34,7 @@ namespace EulerovKon
         /// <param name="maxSeconds">Maximálny počet sekúnd, ktorý môže hľadať cestu</param>
         /// <exception cref="ArgumentException" />
         /// <returns>Vráti cestu ako pole x,y suradníc alebo null ak cesta nebola nájdená</returns>
-        public Tuple<int, int>[] Start(int width, int height, int x, int y, int maxSeconds)
+        public Stav Start(int width, int height, int x, int y, int maxSeconds)
         {
             // Spusti stopky
             _stopwatch.Restart();
@@ -72,7 +72,7 @@ namespace EulerovKon
                 {
                     _timer.Stop();
                     _stopwatch.Stop();
-                    return uzol.Path; // Vrať nájdenú cestu
+                    return uzol.Stav; // Vrať nájdenú cestu
                 }
 
                 if (uzol.Failed) // Slepá ulička ?

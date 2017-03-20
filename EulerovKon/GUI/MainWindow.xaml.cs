@@ -171,7 +171,7 @@ namespace GUI
             ChessBoard.Children.Remove(_handler);
 
             // Nájdi cestu
-            var path = _search.Start((int) WidthSlider.Value, (int) HeightSlider.Value, x, y, seconds);
+            var stav = _search.Start((int) WidthSlider.Value, (int) HeightSlider.Value, x, y, seconds);
 
             // Vypíš štatistiku 
             TimeElapsed.Text = _search.TimeElapsed.ToString();
@@ -179,7 +179,7 @@ namespace GUI
             Steps.Text = _search.Steps.ToString("n0", _format);
 
             // Update GUI
-            if (path == null)
+            if (stav == null)
                 if (_search.TimedOut)
                     MessageBox.Show("Nepodarilo sa nájsť cestu v stanovenom čase.", "Vypršal čas", MessageBoxButton.OK,
                         MessageBoxImage.Warning);
@@ -187,23 +187,30 @@ namespace GUI
                     MessageBox.Show("Riešenie pre daný vstup neexistuje.", "Chyba", MessageBoxButton.OK,
                         MessageBoxImage.Information);
             else
-                for (var i = 0; i < path.Length - 1;)
-                {
-                    var ciara = new Line
-                    {
-                        X1 = path[i].Item1 * 20 + 10,
-                        Y1 = path[i].Item2 * 20 + 10,
-                        Stroke = SystemColors.ControlTextBrush
-                    };
-                    ++i;
-                    ciara.X2 = path[i].Item1 * 20 + 10;
-                    ciara.Y2 = path[i].Item2 * 20 + 10;
-                    ChessBoard.Children.Add(ciara);
-                    _lines.Add(ciara);
-                }
+                DrawLines(stav);
 
             // Pridaj Handler na vrch
             ChessBoard.Children.Add(_handler);
+        }
+
+        /// <summary>
+        ///     Rekurzívna funkcia, ktorá vykreslí čiari na základe stavov, ktoré tvoria cestu
+        /// </summary>
+        /// <param name="stav">Stav do ktorého kôň prešiel</param>
+        private void DrawLines(Stav stav)
+        {
+            if (stav.From == null) return;
+            DrawLines(stav.From);
+            var ciara = new Line
+            {
+                X1 = stav.X * 20 + 10,
+                Y1 = stav.Y * 20 + 10,
+                Stroke = SystemColors.ControlTextBrush,
+                X2 = stav.From.X * 20 + 10,
+                Y2 = stav.From.Y * 20 + 10
+            };
+            ChessBoard.Children.Add(ciara);
+            _lines.Add(ciara);
         }
 
         /// <summary>

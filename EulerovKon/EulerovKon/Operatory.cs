@@ -10,10 +10,10 @@ namespace EulerovKon
         /// <summary>
         ///     Metóda operátora
         /// </summary>
-        /// <param name="uzol">Uzol obsahujúci stav na ktorom sa bude vykonáva operátor</param>
+        /// <param name="stav">Stav na ktorom sa bude vykonáva operátor</param>
         /// <returns>Pozíciu kam skoèí kôò ak je to moné, inak null</returns>
         /// <exception cref="IndexOutOfRangeException" />
-        public delegate Tuple<int, int> Operator(Uzol uzol);
+        public delegate Tuple<int, int> Operator(Stav stav);
 
         /// <summary>
         ///     Zoznam všetkıch operátorov
@@ -33,25 +33,25 @@ namespace EulerovKon
         /// <summary>
         ///     Skok nahor do¾ava
         /// </summary>
-        /// <param name="uzol">Uzol obsahujúci stav na ktorom sa bude vykonáva operátor</param>
+        /// <param name="stav">Stav na ktorom sa bude vykonáva operátor</param>
         /// <returns>Pozíciu kam skoèí kôò ak je to moné, inak null</returns>
         /// <exception cref="IndexOutOfRangeException" />
-        private static Tuple<int, int> O1(Uzol uzol)
+        private static Tuple<int, int> O1(Stav stav)
         {
-            var result = new Tuple<int, int>(uzol.X - 1, uzol.Y - 2);
-            return result.Item1 < 0 || result.Item2 < 0 || uzol.Used[result.Item1, result.Item2] ? null : result;
+            var result = new Tuple<int, int>(stav.X - 1, stav.Y - 2);
+            return result.Item1 < 0 || result.Item2 < 0 || stav.Used[result.Item1, result.Item2] ? null : result;
         }
 
         /// <summary>
         ///     Skok nahor doprava
         /// </summary>
-        /// <param name="uzol">Uzol obsahujúci stav na ktorom sa bude vykonáva operátor</param>
+        /// <param name="stav">Stav na ktorom sa bude vykonáva operátor</param>
         /// <returns>Pozíciu kam skoèí kôò ak je to moné, inak null</returns>
         /// <exception cref="IndexOutOfRangeException" />
-        private static Tuple<int, int> O2(Uzol uzol)
+        private static Tuple<int, int> O2(Stav stav)
         {
-            var result = new Tuple<int, int>(uzol.X + 1, uzol.Y - 2);
-            return result.Item1 >= uzol.Width || result.Item2 < 0 || uzol.Used[result.Item1, result.Item2]
+            var result = new Tuple<int, int>(stav.X + 1, stav.Y - 2);
+            return result.Item1 >= stav.Width || result.Item2 < 0 || stav.Used[result.Item1, result.Item2]
                 ? null
                 : result;
         }
@@ -59,13 +59,13 @@ namespace EulerovKon
         /// <summary>
         ///     Skok vpravo hore
         /// </summary>
-        /// <param name="uzol">Uzol obsahujúci stav na ktorom sa bude vykonáva operátor</param>
+        /// <param name="stav">Stav na ktorom sa bude vykonáva operátor</param>
         /// <returns>Pozíciu kam skoèí kôò ak je to moné, inak null</returns>
         /// <exception cref="IndexOutOfRangeException" />
-        private static Tuple<int, int> O3(Uzol uzol)
+        private static Tuple<int, int> O3(Stav stav)
         {
-            var result = new Tuple<int, int>(uzol.X + 2, uzol.Y - 1);
-            return result.Item1 >= uzol.Width || result.Item2 < 0 || uzol.Used[result.Item1, result.Item2]
+            var result = new Tuple<int, int>(stav.X + 2, stav.Y - 1);
+            return result.Item1 >= stav.Width || result.Item2 < 0 || stav.Used[result.Item1, result.Item2]
                 ? null
                 : result;
         }
@@ -73,13 +73,13 @@ namespace EulerovKon
         /// <summary>
         ///     Skok vpravo dole
         /// </summary>
-        /// <param name="uzol">Uzol obsahujúci stav na ktorom sa bude vykonáva operátor</param>
+        /// <param name="stav">Stav na ktorom sa bude vykonáva operátor</param>
         /// <returns>Pozíciu kam skoèí kôò ak je to moné, inak null</returns>
         /// <exception cref="IndexOutOfRangeException" />
-        private static Tuple<int, int> O4(Uzol uzol)
+        private static Tuple<int, int> O4(Stav stav)
         {
-            var result = new Tuple<int, int>(uzol.X + 2, uzol.Y + 1);
-            return result.Item1 >= uzol.Width || result.Item2 >= uzol.Height || uzol.Used[result.Item1, result.Item2]
+            var result = new Tuple<int, int>(stav.X + 2, stav.Y + 1);
+            return result.Item1 >= stav.Width || result.Item2 >= stav.Height || stav.Used[result.Item1, result.Item2]
                 ? null
                 : result;
         }
@@ -87,13 +87,13 @@ namespace EulerovKon
         /// <summary>
         ///     Skok nadol doprava
         /// </summary>
-        /// <param name="uzol">Uzol obsahujúci stav na ktorom sa bude vykonáva operátor</param>
+        /// <param name="stav">Stav na ktorom sa bude vykonáva operátor</param>
         /// <returns>Pozíciu kam skoèí kôò ak je to moné, inak null</returns>
         /// <exception cref="IndexOutOfRangeException" />
-        private static Tuple<int, int> O5(Uzol uzol)
+        private static Tuple<int, int> O5(Stav stav)
         {
-            var result = new Tuple<int, int>(uzol.X + 1, uzol.Y + 2);
-            return result.Item1 >= uzol.Width || result.Item2 >= uzol.Height || uzol.Used[result.Item1, result.Item2]
+            var result = new Tuple<int, int>(stav.X + 1, stav.Y + 2);
+            return result.Item1 >= stav.Width || result.Item2 >= stav.Height || stav.Used[result.Item1, result.Item2]
                 ? null
                 : result;
         }
@@ -101,13 +101,13 @@ namespace EulerovKon
         /// <summary>
         ///     Skok nadol do¾ava
         /// </summary>
-        /// <param name="uzol">Uzol obsahujúci stav na ktorom sa bude vykonáva operátor</param>
+        /// <param name="stav">Stav na ktorom sa bude vykonáva operátor</param>
         /// <returns>Pozíciu kam skoèí kôò ak je to moné, inak null</returns>
         /// <exception cref="IndexOutOfRangeException" />
-        private static Tuple<int, int> O6(Uzol uzol)
+        private static Tuple<int, int> O6(Stav stav)
         {
-            var result = new Tuple<int, int>(uzol.X - 1, uzol.Y + 2);
-            return result.Item1 < 0 || result.Item2 >= uzol.Height || uzol.Used[result.Item1, result.Item2]
+            var result = new Tuple<int, int>(stav.X - 1, stav.Y + 2);
+            return result.Item1 < 0 || result.Item2 >= stav.Height || stav.Used[result.Item1, result.Item2]
                 ? null
                 : result;
         }
@@ -115,13 +115,13 @@ namespace EulerovKon
         /// <summary>
         ///     Skok v¾avo dole
         /// </summary>
-        /// <param name="uzol">Uzol obsahujúci stav na ktorom sa bude vykonáva operátor</param>
+        /// <param name="stav">Stav na ktorom sa bude vykonáva operátor</param>
         /// <returns>Pozíciu kam skoèí kôò ak je to moné, inak null</returns>
         /// <exception cref="IndexOutOfRangeException" />
-        private static Tuple<int, int> O7(Uzol uzol)
+        private static Tuple<int, int> O7(Stav stav)
         {
-            var result = new Tuple<int, int>(uzol.X - 2, uzol.Y + 1);
-            return result.Item1 < 0 || result.Item2 >= uzol.Height || uzol.Used[result.Item1, result.Item2]
+            var result = new Tuple<int, int>(stav.X - 2, stav.Y + 1);
+            return result.Item1 < 0 || result.Item2 >= stav.Height || stav.Used[result.Item1, result.Item2]
                 ? null
                 : result;
         }
@@ -129,13 +129,13 @@ namespace EulerovKon
         /// <summary>
         ///     Skok v¾avo hore
         /// </summary>
-        /// <param name="uzol">Uzol obsahujúci stav na ktorom sa bude vykonáva operátor</param>
+        /// <param name="stav">Stav na ktorom sa bude vykonáva operátor</param>
         /// <returns>Pozíciu kam skoèí kôò ak je to moné, inak null</returns>
         /// <exception cref="IndexOutOfRangeException" />
-        private static Tuple<int, int> O8(Uzol uzol)
+        private static Tuple<int, int> O8(Stav stav)
         {
-            var result = new Tuple<int, int>(uzol.X - 2, uzol.Y - 1);
-            return result.Item1 < 0 || result.Item2 < 0 || uzol.Used[result.Item1, result.Item2] ? null : result;
+            var result = new Tuple<int, int>(stav.X - 2, stav.Y - 1);
+            return result.Item1 < 0 || result.Item2 < 0 || stav.Used[result.Item1, result.Item2] ? null : result;
         }
     }
 }

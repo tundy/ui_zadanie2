@@ -7,7 +7,7 @@ namespace EulerovKon
     /// <summary>
     ///     Objekt obsahujúci informácie o aktuálnom rozložení šachovnice
     /// </summary>
-    [DebuggerDisplay("X:{X}, Y:{Y}, C:{Cost}, R:{_remaining}")]
+    [DebuggerDisplay("X:{Stav.X}, Y:{Stav.Y}, C:{Cost}, R:{_remaining}")]
     internal class Uzol
     {
         #region Private Methdos
@@ -19,7 +19,7 @@ namespace EulerovKon
         {
             foreach (var @operator in Operatory.AllOperations)
             {
-                var skok = @operator(this);
+                var skok = @operator(Stav);
                 if (skok == null) continue;
                 Jumps.Add(skok);
             }
@@ -51,31 +51,6 @@ namespace EulerovKon
         #region Attributes
 
         /// <summary>
-        ///     Urèuje ktoré políèka na šachovnici už boli navštívené
-        /// </summary>
-        public readonly bool[,] Used;
-
-        /// <summary>
-        ///     Šírka šachovnice
-        /// </summary>
-        public readonly int Width;
-
-        /// <summary>
-        ///     Výška šachovnice
-        /// </summary>
-        public readonly int Height;
-
-        /// <summary>
-        ///     Horizontálna súradnica kde sa práve nachádza kôò
-        /// </summary>
-        public readonly int X;
-
-        /// <summary>
-        ///     Vertikálna súradnica kde sa práve nachádza kôò
-        /// </summary>
-        public readonly int Y;
-
-        /// <summary>
         ///     Poèet neobsadených políèok v šachovnici
         /// </summary>
         private readonly int _remaining;
@@ -86,14 +61,9 @@ namespace EulerovKon
         public readonly List<Tuple<int, int>> Jumps = new List<Tuple<int, int>>(8);
 
         /// <summary>
-        ///     Cesta, ktorou som sa dostal do tohto uzlu
+        ///     Aktuálny stav šachovnice
         /// </summary>
-        public readonly Tuple<int, int>[] Path;
-
-        /// <summary>
-        ///     Pozícia v poli Cesta
-        /// </summary>
-        private readonly int _pathIndex;
+        public readonly Stav Stav;
 
         #endregion
 
@@ -110,23 +80,8 @@ namespace EulerovKon
         /// <exception cref="ArgumentException" />
         public Uzol(int width, int height, int x, int y)
         {
-            if (width > Search.MaxWidth || width < Search.MinWidth)
-                throw new ArgumentException("Wrong Width", nameof(width));
-            if (height > Search.MaxHeight || height < Search.MinHeight)
-                throw new ArgumentException("Wrong Height", nameof(height));
-
-            Used = new bool[width, height];
-            Width = width;
-            Height = height;
-
-            X = x;
-            Y = y;
-
-            Used[X, Y] = true;
-            Path = new Tuple<int, int>[Width * Height];
-            _remaining = Width * Height - 1;
-            Path[_pathIndex++] = new Tuple<int, int>(x, y);
-
+            Stav = new Stav(width, height, x, y);
+            _remaining = Stav.Width * Stav.Height - 1;
             GenerateJumps();
         }
 
@@ -138,26 +93,8 @@ namespace EulerovKon
         /// <exception cref="IndexOutOfRangeException" />
         public Uzol(Uzol uzol, Tuple<int, int> horse)
         {
-            Width = uzol.Width;
-            Height = uzol.Height;
-            Used = new bool[Width, Height];
-
-            for (var x = 0; x < Width; x++)
-            for (var y = 0; y < Height; y++)
-                Used[x, y] = uzol.Used[x, y];
-
-            X = horse.Item1;
-            Y = horse.Item2;
-
-            Used[horse.Item1, horse.Item2] = true;
-            Path = new Tuple<int, int>[uzol.Path.Length];
+            Stav = new Stav(uzol.Stav, horse);
             _remaining = uzol._remaining - 1;
-
-            _pathIndex = uzol._pathIndex;
-            for (var i = 0; i < _pathIndex; i++)
-                Path[i] = uzol.Path[i];
-            Path[_pathIndex++] = horse;
-
             GenerateJumps();
         }
 
