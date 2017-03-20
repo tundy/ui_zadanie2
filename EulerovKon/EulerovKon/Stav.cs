@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EulerovKon
 {
@@ -38,7 +34,7 @@ namespace EulerovKon
         /// <summary>
         ///     Stav, z ktorého som sa sem dostal
         /// </summary>
-        public Stav From;
+        public readonly Stav From;
 
         #endregion
 
@@ -85,8 +81,8 @@ namespace EulerovKon
             Used = new bool[Width, Height];
 
             for (var x = 0; x < Width; x++)
-                for (var y = 0; y < Height; y++)
-                    Used[x, y] = stav.Used[x, y];
+            for (var y = 0; y < Height; y++)
+                Used[x, y] = stav.Used[x, y];
 
             X = horse.Item1;
             Y = horse.Item2;
