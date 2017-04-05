@@ -200,7 +200,6 @@ namespace GUI
         private void DrawLines(Stav stav)
         {
             if (stav.From == null) return;
-            DrawLines(stav.From);
             var ciara = new Line
             {
                 X1 = stav.X * 20 + 10,
@@ -211,6 +210,7 @@ namespace GUI
             };
             ChessBoard.Children.Add(ciara);
             _lines.Add(ciara);
+            DrawLines(stav.From);
         }
 
         /// <summary>
